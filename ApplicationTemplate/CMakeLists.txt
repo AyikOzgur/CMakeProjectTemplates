@@ -1,0 +1,79 @@
+cmake_minimum_required(VERSION 3.13)
+
+
+
+################################################################################
+## PROJECT
+## name and version
+################################################################################
+project(MyApplication LANGUAGES CXX)
+
+
+
+################################################################################
+## SETTINGS
+## basic project settings before use
+################################################################################
+# Set default Release mode if not specified
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Release CACHE STRING "Build type defaulting to Release" FORCE)
+    message("Build type defaulting to Release")
+endif()
+
+
+
+################################################################################
+## CONFIGURATION
+## project configuration
+################################################################################
+
+################################################################################
+## CLANG-FORMAT
+## code formatting support
+################################################################################
+# Find clang-format (optional, won't fail if not found)
+find_program(CLANG_FORMAT_EXECUTABLE 
+    NAMES clang-format clang-format-18 clang-format-17 clang-format-16 clang-format-15
+    DOC "Path to clang-format executable"
+)
+
+if(CLANG_FORMAT_EXECUTABLE)
+    message(STATUS "clang-format found: ${CLANG_FORMAT_EXECUTABLE}")
+
+    # Collect all source files for formatting
+    file(GLOB_RECURSE ALL_SOURCE_FILES
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/*.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/*.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/*.hpp
+    )
+
+    # Create format target
+    add_custom_target(format
+        COMMAND ${CLANG_FORMAT_EXECUTABLE}
+        -i
+        -style=file
+        ${ALL_SOURCE_FILES}
+        COMMENT "Running clang-format on all source files"
+    )
+    
+    # Create format-check target (doesn't modify files, just checks)
+    add_custom_target(format-check
+        COMMAND ${CLANG_FORMAT_EXECUTABLE}
+        --dry-run
+        --Werror
+        -style=file
+        ${ALL_SOURCE_FILES}
+        COMMENT "Checking code formatting with clang-format"
+    )
+else()
+    message(STATUS "clang-format not found - formatting targets will not be available")
+endif()
+
+
+
+################################################################################
+## INCLUDING SUBDIRECTORIES
+################################################################################
+add_subdirectory(3rdparty)
+add_subdirectory(src)

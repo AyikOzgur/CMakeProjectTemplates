@@ -73,6 +73,36 @@ endif()
 
 
 ################################################################################
+## CLANG-TIDY
+## static analysis support
+################################################################################
+# Option to enable/disable clang-tidy during build
+option(ENABLE_CLANG_TIDY "Enable clang-tidy static analysis during build" ON)
+
+# Find clang-tidy (optional, won't fail if not found)
+find_program(CLANG_TIDY_EXECUTABLE
+    NAMES clang-tidy clang-tidy-18 clang-tidy-17 clang-tidy-16 clang-tidy-15
+    DOC "Path to clang-tidy executable"
+)
+
+if(CLANG_TIDY_EXECUTABLE)
+    message(STATUS "clang-tidy found: ${CLANG_TIDY_EXECUTABLE}")
+
+    # If enabled, set CMAKE_CXX_CLANG_TIDY to run clang-tidy automatically during compilation
+    if(ENABLE_CLANG_TIDY)
+        set(CMAKE_CXX_CLANG_TIDY
+            ${CLANG_TIDY_EXECUTABLE}
+            --config-file=${CMAKE_CURRENT_SOURCE_DIR}/.clang-tidy
+        )
+        message(STATUS "clang-tidy enabled for build")
+    endif()
+else()
+    message(STATUS "clang-tidy not found - static analysis targets will not be available")
+endif()
+
+
+
+################################################################################
 ## INCLUDING SUBDIRECTORIES
 ################################################################################
 add_subdirectory(3rdparty)

@@ -10,6 +10,6 @@ bool MyLib::init(int some_argument) {
     return m_impl->init(some_argument);
 }
 
-int MyLib::some_work(int some_argument) {
-    return m_impl->some_work(some_argument);
+int MyLib::someWork(int some_argument) {
+    return m_impl->someWork(some_argument);
 }

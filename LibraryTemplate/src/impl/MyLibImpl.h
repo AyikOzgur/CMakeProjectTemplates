@@ -7,7 +7,7 @@ public:
 
     bool init(int some_argument);
 
-    int some_work(int some_argument);
+    int someWork(int some_argument);
 
 private:
     int m_some_private_field{0};

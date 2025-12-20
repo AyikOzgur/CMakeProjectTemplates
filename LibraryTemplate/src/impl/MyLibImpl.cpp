@@ -4,9 +4,11 @@ MyLib::MyLibImpl::MyLibImpl(int some_argument) {
 }
 
 bool MyLib::MyLibImpl::init(int some_argument) {
+    m_some_private_field = some_argument;
     return false;
 }
 
-int MyLib::MyLibImpl::some_work(int some_argument) {
+int MyLib::MyLibImpl::someWork(int some_argument) {
+    m_some_private_field = some_argument;
     return 0;
 }

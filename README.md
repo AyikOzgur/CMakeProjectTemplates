@@ -129,6 +129,64 @@ add_subdirectory(path/to/LibraryTemplate)
 target_link_libraries(YourTarget PRIVATE MyLib)
 ```
 
+## Static Analysis (clang-tidy)
+
+Both templates include clang-tidy integration for static analysis and code quality checks.
+
+### Prerequisites
+
+Install clang-tidy:
+```bash
+# Ubuntu/Debian
+sudo apt install clang-tidy
+```
+
+### Usage
+
+clang-tidy runs automatically during compilation when enabled (default):
+
+```bash
+cd build
+
+# Configure with clang-tidy enabled (default)
+cmake ..
+
+# Build - clang-tidy will analyze files as they compile
+cmake --build .
+
+# Disable clang-tidy during build
+cmake .. -DENABLE_CLANG_TIDY=OFF
+```
+
+### Configuration
+
+Edit `.clang-tidy` in the project root to customize which checks are enabled. The default configuration enables:
+- `bugprone-*` - Common bug patterns
+- `clang-analyzer-*` - Clang static analyzer checks
+- `cppcoreguidelines-*` - C++ Core Guidelines checks
+- `modernize-*` - Modernization suggestions (C++11/14/17)
+- `performance-*` - Performance improvements
+- `portability-*` - Portability issues
+- `readability-*` - Code readability improvements
+
+Some overly strict checks are disabled by default (e.g., `modernize-use-trailing-return-type`).
+
+### Customizing Checks
+
+To modify enabled checks, edit the `Checks` field in `.clang-tidy`:
+```yaml
+Checks: >
+  -*,
+  bugprone-*,
+  modernize-*,
+  -modernize-use-trailing-return-type
+```
+
+To treat warnings as errors:
+```yaml
+WarningsAsErrors: '*'
+```
+
 ## Code Formatting
 
 Both templates include clang-format integration for consistent code style.
@@ -221,6 +279,21 @@ make install
 ```
 
 ## Troubleshooting
+
+### clang-tidy Not Found
+
+If clang-tidy is not available:
+```bash
+# Check if clang-tidy is installed
+which clang-tidy
+
+# Install if missing (see Static Analysis section)
+```
+
+The build will succeed even without clang-tidy; it's optional. You can also explicitly disable it:
+```bash
+cmake .. -DENABLE_CLANG_TIDY=OFF
+```
 
 ### clang-format Not Found
 

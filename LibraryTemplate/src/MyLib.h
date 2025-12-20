@@ -5,10 +5,14 @@ class MyLib {
 public:
     MyLib(int some_argument);
     ~MyLib();
+    MyLib(MyLib &rhs) = default;
+    MyLib(MyLib &&rhs) = default;
+    MyLib& operator=(MyLib &rhs) = default;
+    MyLib& operator=(MyLib &&rhs) = default;
 
     bool init(int some_argument);
 
-    int some_work(int some_argument);
+    int someWork(int some_argument);
 
 private:
     class MyLibImpl;

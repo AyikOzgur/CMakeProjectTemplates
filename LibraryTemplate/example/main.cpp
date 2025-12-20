@@ -1,6 +1,6 @@
 #include "MyLib.h"
 
 int main() {
-    MyLib my_lib(1);
+    MyLib myLib(1);
     return 0;
 }

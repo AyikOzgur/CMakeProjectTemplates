@@ -21,6 +21,7 @@ A complete C++ library template implementing the Pimpl (Pointer to Implementatio
 LibraryTemplate/
 ├── CMakeLists.txt          # Root CMake configuration
 ├── .clang-format           # Code formatting rules
+├── .clang-tidy             # Static analysis configuration
 ├── 3rdparty/               # Third-party dependencies
 ├── src/                    # Library source code
 │   ├── CMakeLists.txt      # Library build configuration
@@ -43,6 +44,7 @@ A standalone C++ application template.
 ApplicationTemplate/
 ├── CMakeLists.txt          # Root CMake configuration
 ├── .clang-format           # Code formatting rules
+├── .clang-tidy             # Static analysis configuration
 ├── 3rdparty/               # Third-party dependencies
 └── src/                    # Application source code
     ├── CMakeLists.txt

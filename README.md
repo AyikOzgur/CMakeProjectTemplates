@@ -13,6 +13,7 @@ A complete C++ library template implementing the Pimpl (Pointer to Implementatio
 - Separation of public API and private implementation
 - Example application demonstrating library usage
 - Install support for library distribution
+- **CMake package support** (`find_package`) for easy integration
 - clang-format integration for consistent code style
 - Cross-platform build configuration
 
@@ -114,12 +115,30 @@ sudo make install
 ```
 /prefix/
 ├── lib/
-│   └── libMyLib.a (or libMyLib.so)
+│   ├── libMyLib.a (or libMyLib.so)
+│   └── cmake/MyLib/
+│       ├── MyLibConfig.cmake
+│       └── MyLibConfigVersion.cmake
 └── include/MyLib/
     └── MyLib.h
 ```
 
 Note: Implementation files in `src/impl/` are excluded from installation.
+
+### Using with find_package
+
+After installation, other CMake projects can use the library via `find_package`:
+
+```cmake
+# In your CMakeLists.txt
+find_package(MyLib REQUIRED)
+target_link_libraries(YourTarget PRIVATE MyLib::MyLib)
+```
+
+If installed to a custom prefix, specify the path:
+```bash
+cmake .. -DCMAKE_PREFIX_PATH=$HOME/local
+```
 
 ### Using as a Submodule
 
